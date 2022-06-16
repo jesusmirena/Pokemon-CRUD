@@ -9,6 +9,8 @@ function App() {
   const [searchValue, setSearchValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const [modal, setModal] = useState(false);
+
   const getPokemons = async () => {
     const response = await axios.get(
       "https://bp-pokemons.herokuapp.com/?idAuthor=1"
@@ -27,11 +29,21 @@ function App() {
       <h1>hola</h1>
       {!isLoading ? (
         <>
-          <SearchBar
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
-          />
-          <Form />
+          <div>
+            <SearchBar
+              searchValue={searchValue}
+              setSearchValue={setSearchValue}
+            />
+            <button onClick={() => setModal(true)}>New +</button>
+          </div>
+
+          {modal && (
+            <Form
+              pokemons={pokemons}
+              setPokemons={setPokemons}
+              setModal={setModal}
+            />
+          )}
           <Table
             pokemons={pokemons}
             setPokemons={setPokemons}
