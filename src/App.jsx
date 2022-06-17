@@ -1,24 +1,18 @@
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+
 import Form from "./components/Form";
 import SearchBar from "./components/SearchBar";
 import Table from "./components/Table";
 
+import { useModal } from "./hooks/useModal";
+
 function App() {
-  const [pokemons, setPokemons] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const [modal, setModal] = useState(false);
-  const [pokemonForm, setPokemonForm] = useState({
-    name: "",
-    image: "",
-    type: "",
-    attack: "50",
-    defense: "50",
-    hp: 100,
-    idAuthor: 1,
-  });
+
+  const { modal, openModal, closeModal, sendFormData } = useModal();
 
   const getPokemons = async () => {
     const response = await axios.get(
@@ -43,25 +37,22 @@ function App() {
               searchValue={searchValue}
               setSearchValue={setSearchValue}
             />
-            <button onClick={() => setModal(true)}>New +</button>
+            <button onClick={() => openModal()}>New +</button>
           </div>
 
           {modal && (
             <Form
-              pokemons={pokemons}
-              setPokemons={setPokemons}
-              setModal={setModal}
+              closeModal={closeModal}
               pokemonForm={pokemonForm}
               setPokemonForm={setPokemonForm}
+              sendFormData={sendFormData}
             />
           )}
           <Table
             pokemons={pokemons}
             setPokemons={setPokemons}
-            setModal={setModal}
-            pokemonForm={pokemonForm}
-            setPokemonForm={setPokemonForm}
             searchValue={searchValue}
+            openModal={openModal}
           />
         </>
       ) : (
