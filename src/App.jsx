@@ -5,12 +5,15 @@ import Form from "./components/Form";
 import SearchBar from "./components/SearchBar";
 import Table from "./components/Table";
 
+import Context from "./context/ModalContext";
 import { useModal } from "./hooks/useModal";
 
 function App() {
   const [searchValue, setSearchValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  const { pokemons, setPokemons, pokemonForm, setPokemonForm } =
+    useContext(Context);
 
   const { modal, openModal, closeModal, sendFormData } = useModal();
 
