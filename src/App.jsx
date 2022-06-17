@@ -10,6 +10,15 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [modal, setModal] = useState(false);
+  const [pokemonForm, setPokemonForm] = useState({
+    name: "",
+    image: "",
+    type: "",
+    attack: "50",
+    defense: "50",
+    hp: 100,
+    idAuthor: 1,
+  });
 
   const getPokemons = async () => {
     const response = await axios.get(
@@ -42,11 +51,16 @@ function App() {
               pokemons={pokemons}
               setPokemons={setPokemons}
               setModal={setModal}
+              pokemonForm={pokemonForm}
+              setPokemonForm={setPokemonForm}
             />
           )}
           <Table
             pokemons={pokemons}
             setPokemons={setPokemons}
+            setModal={setModal}
+            pokemonForm={pokemonForm}
+            setPokemonForm={setPokemonForm}
             searchValue={searchValue}
           />
         </>

@@ -1,17 +1,13 @@
 import axios from "axios";
 import React, { useState } from "react";
 
-const Form = ({ pokemons, setPokemons, setModal }) => {
-  const [pokemonForm, setPokemonForm] = useState({
-    name: "",
-    image: "",
-    type: "",
-    attack: "50",
-    defense: "50",
-    hp: 100,
-    idAuthor: 1,
-  });
-
+const Form = ({
+  pokemons,
+  setPokemons,
+  setModal,
+  pokemonForm,
+  setPokemonForm,
+}) => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -24,23 +20,49 @@ const Form = ({ pokemons, setPokemons, setModal }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const response = await axios.post(
-      "https://bp-pokemons.herokuapp.com/?idAuthor=1",
-      pokemonForm
-    );
+    if (pokemonForm.id) {
+      const response = await axios.put(
+        `https://bp-pokemons.herokuapp.com/${pokemonForm.id}`,
+        { ...pokemonForm, idAuthor: 1 }
+      );
+      console.log(response);
 
-    setPokemons([...pokemons, response.data]);
+      if (response.data.success === false) {
+        alert("Your pokemon couldn't be updated");
+        return;
+      }
+      const updatedPokemons = pokemons.map((pokemon) =>
+        pokemon.id === pokemonForm.id ? response.data : pokemon
+      );
+      setPokemons(updatedPokemons);
+      setPokemonForm({
+        name: "",
+        image: "",
+        type: "",
+        attack: "50",
+        defense: "50",
+        hp: 100,
+        idAuthor: 1,
+      });
+    } else {
+      const response = await axios.post(
+        "https://bp-pokemons.herokuapp.com/?idAuthor=1",
+        pokemonForm
+      );
 
-    setPokemonForm({
-      name: "",
-      image: "",
-      type: "",
-      attack: "50",
-      defense: "50",
-      hp: 100,
-      idAuthor: 1,
-    });
-    alert("Your pokemon has been created successfully :)");
+      setPokemons([...pokemons, response.data]);
+
+      setPokemonForm({
+        name: "",
+        image: "",
+        type: "",
+        attack: "50",
+        defense: "50",
+        hp: 100,
+        idAuthor: 1,
+      });
+      alert("Your pokemon has been created successfully :)");
+    }
   };
 
   return (
