@@ -1,24 +1,25 @@
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+
 import Form from "./components/Form";
 import SearchBar from "./components/SearchBar";
 import Table from "./components/Table";
+import Container from "./components/styledComponents/Container.styled";
+import { StyledButton } from "./components/styledComponents/Button.styled";
+
+import Context from "./context/ModalContext";
+import { useModal } from "./hooks/useModal";
+
+import { AiOutlinePlus } from "react-icons/ai";
 
 function App() {
-  const [pokemons, setPokemons] = useState([]);
   const [searchValue, setSearchValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const [modal, setModal] = useState(false);
-  const [pokemonForm, setPokemonForm] = useState({
-    name: "",
-    image: "",
-    type: "",
-    attack: "50",
-    defense: "50",
-    hp: 100,
-    idAuthor: 1,
-  });
+  const { pokemons, setPokemons, pokemonForm, setPokemonForm } =
+    useContext(Context);
+
+  const { modal, openModal, closeModal, sendFormData } = useModal();
 
   const getPokemons = async () => {
     const response = await axios.get(
@@ -35,35 +36,36 @@ function App() {
 
   return (
     <div className="App">
-      <h1>hola</h1>
       {!isLoading ? (
-        <>
-          <div>
+        <Container general>
+          <p>Pokemon List</p>
+          <Container spaceBetween>
             <SearchBar
               searchValue={searchValue}
               setSearchValue={setSearchValue}
             />
-            <button onClick={() => setModal(true)}>New +</button>
-          </div>
 
-          {modal && (
-            <Form
-              pokemons={pokemons}
-              setPokemons={setPokemons}
-              setModal={setModal}
-              pokemonForm={pokemonForm}
-              setPokemonForm={setPokemonForm}
-            />
-          )}
+            <StyledButton onClick={() => openModal()}>
+              <AiOutlinePlus /> New
+            </StyledButton>
+          </Container>
+
           <Table
             pokemons={pokemons}
             setPokemons={setPokemons}
-            setModal={setModal}
-            pokemonForm={pokemonForm}
-            setPokemonForm={setPokemonForm}
             searchValue={searchValue}
+            openModal={openModal}
           />
-        </>
+
+          {modal && (
+            <Form
+              closeModal={closeModal}
+              pokemonForm={pokemonForm}
+              setPokemonForm={setPokemonForm}
+              sendFormData={sendFormData}
+            />
+          )}
+        </Container>
       ) : (
         <p>Loading...</p>
       )}

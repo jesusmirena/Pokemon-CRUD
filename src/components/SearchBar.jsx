@@ -1,10 +1,11 @@
 import React from "react";
+import { StyledInput } from "./styledComponents/Form.styled";
 
 const SearchBar = ({ searchValue, setSearchValue }) => {
   return (
     <div>
-      <p>SearchBar</p>
-      <input
+      <StyledInput
+        searchBar
         type="text"
         placeholder="search"
         value={searchValue}
