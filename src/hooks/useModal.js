@@ -39,13 +39,13 @@ export const useModal = (initialMode = false) => {
 
       const response = await axios.put(
         `https://bp-pokemons.herokuapp.com/${pokemonForm.id}`,
-        { ...pokemonForm, idAuthor: 1 }
+        { ...pokemonForm, idAuthor: 1, hp: 100 }
       );
+
       if (response.data.success === false) {
         alert("Your pokemon couldn't be updated");
         return;
       }
-
       const updatedPokemons = pokemons.map((pokemon) =>
         pokemon.id === pokemonForm.id ? response.data : pokemon
       );

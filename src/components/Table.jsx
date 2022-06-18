@@ -1,7 +1,23 @@
 import axios from "axios";
+import Container from "./styledComponents/Container.styled";
+import StyledTable from "./styledComponents/Table.styled";
+import { AiOutlineEdit } from "react-icons/ai";
+import { RiDeleteBin2Fill } from "react-icons/ri";
 
 const Table = ({ pokemons, setPokemons, searchValue, openModal }) => {
-  const tableHead = pokemons[0] && Object.keys(pokemons[0]).map((key) => key);
+  const formatedTable = pokemons.map((pokemon) => {
+    return {
+      id: pokemon.id,
+      name: pokemon.name,
+      image: pokemon.image,
+      type: pokemon.type,
+      attack: pokemon.attack,
+      defense: pokemon.defense,
+    };
+  });
+
+  const tableHead =
+    formatedTable[0] && Object.keys(formatedTable[0]).map((key) => key);
 
   const handleDelete = (id) => {
     const response = confirm("Do you want to delete this pokemon?");
@@ -12,9 +28,8 @@ const Table = ({ pokemons, setPokemons, searchValue, openModal }) => {
     }
   };
   return (
-    <div>
-      <h1>TABLA</h1>
-      <table>
+    <Container table>
+      <StyledTable>
         <thead>
           <tr>
             {tableHead && tableHead.map((key) => <th key={key}>{key}</th>)}
@@ -22,8 +37,8 @@ const Table = ({ pokemons, setPokemons, searchValue, openModal }) => {
           </tr>
         </thead>
         <tbody>
-          {pokemons &&
-            pokemons
+          {formatedTable &&
+            formatedTable
               .filter((pokemon) =>
                 pokemon.name
                   .toLowerCase()
@@ -32,19 +47,32 @@ const Table = ({ pokemons, setPokemons, searchValue, openModal }) => {
               .map((pokemon) => (
                 <tr key={pokemon.id}>
                   {Object.values(pokemon).map((val, index) => (
-                    <td key={index}>{val}</td>
+                    <td key={index}>
+                      {val == pokemon.image ? (
+                        <img
+                          style={{ width: 80 + "px", height: 80 + "px" }}
+                          src={pokemon.image}
+                          alt={pokemon.name}
+                        />
+                      ) : (
+                        val
+                      )}
+                    </td>
                   ))}
                   <td>
-                    <button onClick={() => openModal(pokemon)}>Edit</button>
-                    <button onClick={() => handleDelete(pokemon.id)}>
-                      Delete
-                    </button>
+                    <Container actions>
+                      <AiOutlineEdit onClick={() => openModal(pokemon)} />
+
+                      <RiDeleteBin2Fill
+                        onClick={() => handleDelete(pokemon.id)}
+                      />
+                    </Container>
                   </td>
                 </tr>
               ))}
         </tbody>
-      </table>
-    </div>
+      </StyledTable>
+    </Container>
   );
 };
 

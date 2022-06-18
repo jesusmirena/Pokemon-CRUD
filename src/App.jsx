@@ -4,9 +4,13 @@ import axios from "axios";
 import Form from "./components/Form";
 import SearchBar from "./components/SearchBar";
 import Table from "./components/Table";
+import Container from "./components/styledComponents/Container.styled";
+import { StyledButton } from "./components/styledComponents/Button.styled";
 
 import Context from "./context/ModalContext";
 import { useModal } from "./hooks/useModal";
+
+import { AiOutlinePlus } from "react-icons/ai";
 
 function App() {
   const [searchValue, setSearchValue] = useState("");
@@ -32,16 +36,19 @@ function App() {
 
   return (
     <div className="App">
-      <h1>hola</h1>
       {!isLoading ? (
-        <>
-          <div>
+        <Container general>
+          <p>Listado de pokemon</p>
+          <Container spaceBetween>
             <SearchBar
               searchValue={searchValue}
               setSearchValue={setSearchValue}
             />
-            <button onClick={() => openModal()}>New +</button>
-          </div>
+
+            <StyledButton onClick={() => openModal()}>
+              <AiOutlinePlus /> New
+            </StyledButton>
+          </Container>
 
           {modal && (
             <Form
@@ -57,7 +64,7 @@ function App() {
             searchValue={searchValue}
             openModal={openModal}
           />
-        </>
+        </Container>
       ) : (
         <p>Loading...</p>
       )}
