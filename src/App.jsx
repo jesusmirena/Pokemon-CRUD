@@ -38,7 +38,7 @@ function App() {
     <div className="App">
       {!isLoading ? (
         <Container general>
-          <p>Listado de pokemon</p>
+          <p>Pokemon List</p>
           <Container spaceBetween>
             <SearchBar
               searchValue={searchValue}
@@ -50,6 +50,13 @@ function App() {
             </StyledButton>
           </Container>
 
+          <Table
+            pokemons={pokemons}
+            setPokemons={setPokemons}
+            searchValue={searchValue}
+            openModal={openModal}
+          />
+
           {modal && (
             <Form
               closeModal={closeModal}
@@ -58,12 +65,6 @@ function App() {
               sendFormData={sendFormData}
             />
           )}
-          <Table
-            pokemons={pokemons}
-            setPokemons={setPokemons}
-            searchValue={searchValue}
-            openModal={openModal}
-          />
         </Container>
       ) : (
         <p>Loading...</p>

@@ -14,6 +14,8 @@ const Container = styled.div`
     css`
       overflow-x: auto;
       margin: 1.2rem 0;
+      max-height: 20rem;
+      border: 1px solid #c6d2d9;
     `}
 
   ${(props) =>

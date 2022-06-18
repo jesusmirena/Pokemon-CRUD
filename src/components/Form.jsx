@@ -4,6 +4,7 @@ import {
   FormGroup,
   InputContainer,
   ButtonsContainer,
+  StyledInput,
 } from "./styledComponents/Form.styled";
 
 import { MdCancel } from "react-icons/md";
@@ -28,7 +29,7 @@ const Form = ({ pokemonForm, setPokemonForm, closeModal, sendFormData }) => {
           <InputContainer>
             <div>
               <label htmlFor="name">Name:</label>
-              <input
+              <StyledInput
                 type="text"
                 name="name"
                 placeholder="name"
@@ -40,7 +41,7 @@ const Form = ({ pokemonForm, setPokemonForm, closeModal, sendFormData }) => {
 
             <div>
               <label htmlFor="image">Image:</label>
-              <input
+              <StyledInput
                 type="text"
                 name="image"
                 placeholder="url"
@@ -52,7 +53,7 @@ const Form = ({ pokemonForm, setPokemonForm, closeModal, sendFormData }) => {
 
             <div>
               <label htmlFor="type">Type:</label>
-              <input
+              <StyledInput
                 type="text"
                 name="type"
                 placeholder="type"
@@ -66,7 +67,7 @@ const Form = ({ pokemonForm, setPokemonForm, closeModal, sendFormData }) => {
           <InputContainer>
             <label htmlFor="attack">
               Attack: 0
-              <input
+              <StyledInput
                 value={pokemonForm.attack}
                 onChange={(e) => handleChange(e)}
                 type="range"
@@ -79,7 +80,7 @@ const Form = ({ pokemonForm, setPokemonForm, closeModal, sendFormData }) => {
 
             <label htmlFor="defense">
               Defense: 0
-              <input
+              <StyledInput
                 value={pokemonForm.defense}
                 onChange={(e) => handleChange(e)}
                 type="range"
